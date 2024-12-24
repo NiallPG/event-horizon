@@ -1,20 +1,20 @@
-const Orders = [
+const SpaceEvents = [
     {
-        productName: 'JavaScript Tutorial',
-        productNumber: '85743',
-        paymentStatus: 'Due',
-        status: 'Pending'
-    },
-    {
-        productName: 'CSS Full Course',
-        productNumber: '97245',
-        paymentStatus: 'Refunded',
-        status: 'Declined'
-    },
-    {
-        productName: 'Flex-Box Tutorial',
-        productNumber: '36452',
-        paymentStatus: 'Paid',
+        eventName: 'Solar Flare',
+        eventClass: 'M2.3',
+        region: 'AR3549',
         status: 'Active'
     },
-]
+    {
+        eventName: 'CME',
+        eventClass: 'Partial Halo',
+        region: 'Earth-directed',
+        status: 'Warning'
+    },
+    {
+        eventName: 'Geomagnetic Storm',
+        eventClass: 'G2',
+        region: 'Global',
+        status: 'Monitoring'
+    },
+];
