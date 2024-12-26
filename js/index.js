@@ -1,3 +1,4 @@
+
 const sideMenu = document.querySelector('aside');
 const menuBtn = document.getElementById('menu-btn');
 const closeBtn = document.getElementById('close-btn');
@@ -146,6 +147,83 @@ document.getElementById('refresh-asteroids')?.addEventListener('click', (e) => {
     updateAsteroidTable();
 });
 
+
+// kind of shit, refactoring for another day 
+
+function calculatePlanetVisibility() {
+    const planets = [
+        { name: 'Mercury', period: 88, icon: 'track_changes' },
+        { name: 'Venus', period: 225, icon: 'brightness_5' },
+        { name: 'Mars', period: 687, icon: 'radio_button_unchecked' },
+        { name: 'Jupiter', period: 4333, icon: 'album' },
+        { name: 'Saturn', period: 10759, icon: 'radio_button_checked' }
+    ];
+
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const dayOfYear = Math.floor((now - startOfYear) / (24 * 60 * 60 * 1000));
+
+    return planets.map(planet => {
+        const angle = (2 * Math.PI * dayOfYear) / planet.period;
+        const sinValue = Math.sin(angle);
+        
+        let visibility = '';
+        if (sinValue > 0.3) {
+            visibility = 'Evening Sky';
+        } else if (sinValue < -0.3) {
+            visibility = 'Morning Sky';
+        } else {
+            visibility = 'Not Visible';
+        }
+
+        const brightness = Math.abs(sinValue) * 100;
+        
+        return {
+            ...planet,
+            visibility,
+            brightness: Math.round(brightness)
+        };
+    });
+}
+
+function updatePlanetVisibility() {
+    const planets = calculatePlanetVisibility();
+    const remindersSection = document.querySelector('.reminders');
+    
+    if (remindersSection) {
+        remindersSection.innerHTML = `
+            <div class="header">
+                <h2>Visible Planets</h2>
+                <span class="material-icons-sharp">
+                    visibility
+                </span>
+            </div>
+            ${planets.map(planet => `
+                <div class="notification ${planet.visibility === 'Not Visible' ? 'deactive' : ''}">
+                    <div class="icon">
+                        <span class="material-icons-sharp">
+                            ${planet.icon}
+                        </span>
+                    </div>
+                    <div class="content">
+                        <div class="info">
+                            <h3>${planet.name}</h3>
+                            <small class="text_muted">
+                                ${planet.visibility} (${planet.brightness}% Visibility)
+                            </small>
+                        </div>
+                        <span class="material-icons-sharp">
+                            ${planet.visibility !== 'Not Visible' ? 'brightness_5' : 'brightness_2'}
+                        </span>
+                    </div>
+                </div>
+            `).join('')}
+        `;
+    }
+}
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('dark-mode-variables');
     darkMode.querySelector('span:nth-child(1)').classList.add('active');
@@ -153,10 +231,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSpaceWeather();
     updateMoonPhase();
     updateAsteroidTable();
+    updatePlanetVisibility();
     
     setInterval(() => {
         updateSpaceWeather();
         updateMoonPhase();
         updateAsteroidTable();
+        updatePlanetVisibility();
     }, 1800000);
 });
