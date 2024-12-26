@@ -156,7 +156,9 @@ function calculatePlanetVisibility() {
         { name: 'Venus', period: 225, icon: 'brightness_5' },
         { name: 'Mars', period: 687, icon: 'radio_button_unchecked' },
         { name: 'Jupiter', period: 4333, icon: 'album' },
-        { name: 'Saturn', period: 10759, icon: 'radio_button_checked' }
+        { name: 'Saturn', period: 10759, icon: 'radio_button_checked' },
+        { name: 'Uranus', period: 30687, icon: 'circle' },
+        { name: 'Neptune', period: 60190, icon: 'lens' }
     ];
 
     const now = new Date();
@@ -188,37 +190,29 @@ function calculatePlanetVisibility() {
 
 function updatePlanetVisibility() {
     const planets = calculatePlanetVisibility();
-    const remindersSection = document.querySelector('.reminders');
+    const planetsContainer = document.querySelector('.planet-visibility .planets-container');
     
-    if (remindersSection) {
-        remindersSection.innerHTML = `
-            <div class="header">
-                <h2>Visible Planets</h2>
-                <span class="material-icons-sharp">
-                    visibility
-                </span>
-            </div>
-            ${planets.map(planet => `
-                <div class="notification ${planet.visibility === 'Not Visible' ? 'deactive' : ''}">
-                    <div class="icon">
-                        <span class="material-icons-sharp">
-                            ${planet.icon}
-                        </span>
-                    </div>
-                    <div class="content">
-                        <div class="info">
-                            <h3>${planet.name}</h3>
-                            <small class="text_muted">
-                                ${planet.visibility} (${planet.brightness}% Visibility)
-                            </small>
-                        </div>
-                        <span class="material-icons-sharp">
-                            ${planet.visibility !== 'Not Visible' ? 'brightness_5' : 'brightness_2'}
-                        </span>
-                    </div>
+    if (planetsContainer) {
+        planetsContainer.innerHTML = planets.map(planet => `
+            <div class="planet ${planet.visibility === 'Not Visible' ? 'not-visible' : ''}">
+                <div class="icon">
+                    <span class="material-icons-sharp">
+                        ${planet.icon}
+                    </span>
                 </div>
-            `).join('')}
-        `;
+                <div class="content">
+                    <div class="info">
+                        <h3>${planet.name}</h3>
+                        <small class="text_muted">
+                            ${planet.visibility} (${planet.brightness}% Brightness)
+                        </small>
+                    </div>
+                    <span class="material-icons-sharp">
+                        ${planet.visibility !== 'Not Visible' ? 'brightness_5' : 'brightness_2'}
+                    </span>
+                </div>
+            </div>
+        `).join('');
     }
 }
 

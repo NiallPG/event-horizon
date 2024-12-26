@@ -437,25 +437,45 @@ main table tbody tr:last-child td{
     margin-bottom: 0.2rem;
 }
 
-.right-section .reminders{
+.right-section .planet-visibility {
     margin-top: 2rem;
 }
 
-.right-section .reminders .header{
+.right-section .planet-visibility .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 0.8rem;
 }
 
-.right-section .reminders .header span{
+.right-section .planet-visibility .header span {
     padding: 10px;
     box-shadow: var(--box-shadow);
     background-color: var(--color-white);
     border-radius: 50%;
 }
 
-.right-section .reminders .notification{
+.right-section .planet-visibility .planets-container {
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.right-section .planet-visibility .planets-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.right-section .planet-visibility .planets-container::-webkit-scrollbar-track {
+    background: var(--color-light);
+    border-radius: 10px;
+}
+
+.right-section .planet-visibility .planets-container::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 10px;
+}
+
+.right-section .planet-visibility .planet {
     background-color: var(--color-white);
     display: flex;
     align-items: center;
@@ -468,11 +488,11 @@ main table tbody tr:last-child td{
     transition: all 0.3s ease;
 }
 
-.right-section .reminders .notification:hover{
+.right-section .planet-visibility .planet:hover {
     box-shadow: none;
 }
 
-.right-section .reminders .notification .content{
+.right-section .planet-visibility .planet .content {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -480,7 +500,7 @@ main table tbody tr:last-child td{
     width: 100%;
 }
 
-.right-section .reminders .notification .icon{
+.right-section .planet-visibility .planet .icon {
     padding: 0.6rem;
     color: var(--color-white);
     background-color: var(--color-success);
@@ -488,29 +508,8 @@ main table tbody tr:last-child td{
     display: flex;
 }
 
-.right-section .reminders .notification.deactive .icon{
+.right-section .planet-visibility .planet.not-visible .icon {
     background-color: var(--color-danger);
-}
-
-.right-section .reminders .add-reminder{
-    background-color: var(--color-white);
-    border: 2px dashed var(--color-primary);
-    color: var(--color-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.right-section .reminders .add-reminder:hover{
-    background-color: var(--color-primary);
-    color: white;
-}
-
-.right-section .reminders .add-reminder div{
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
 }
 
 
