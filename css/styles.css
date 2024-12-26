@@ -339,28 +339,6 @@ main .new-users .user-list .user img{
     border-radius: 50%;
 }
 
-main .recent-orders{
-    margin-top: 1.3rem;
-}
-
-main .recent-orders h2{
-    margin-bottom: 0.8rem;
-}
-
-main .recent-orders table{
-    background-color: var(--color-white);
-    width: 100%;
-    padding: var(--card-padding);
-    text-align: center;
-    box-shadow: var(--box-shadow);
-    border-radius: var(--card-border-radius);
-    transition: all 0.3s ease;
-}
-
-main .recent-orders table:hover{
-    box-shadow: none;
-}
-
 main table tbody td{
     height: 2.8rem;
     border-bottom: 1px solid var(--color-light);
@@ -369,13 +347,6 @@ main table tbody td{
 
 main table tbody tr:last-child td{
     border: none;
-}
-
-main .recent-orders a{
-    text-align: center;
-    display: block;
-    margin: 1rem auto;
-    color: var(--color-primary);
 }
 
 .right-section{
@@ -542,6 +513,55 @@ main .recent-orders a{
     gap: 0.6rem;
 }
 
+
+.asteroid-tracker {
+    margin-top: 1.3rem;
+}
+
+.asteroid-tracker h2 {
+    margin-bottom: 0.8rem;
+}
+
+.asteroid-tracker table {
+    background-color: var(--color-white);
+    width: 100%;
+    padding: var(--card-padding);
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--card-border-radius);
+    transition: all 0.3s ease;
+}
+
+.asteroid-tracker table:hover {
+    box-shadow: none;
+}
+
+.asteroid-tracker table tbody td {
+    height: 2.8rem;
+    border-bottom: 1px solid var(--color-light);
+    color: var(--color-dark-variant);
+}
+
+.asteroid-tracker table tbody tr:last-child td {
+    border: none;
+}
+
+.asteroid-tracker .danger {
+    color: var(--color-danger);
+}
+
+.asteroid-tracker .primary {
+    color: var(--color-primary);
+}
+
+.asteroid-tracker a {
+    text-align: center;
+    display: block;
+    margin: 1rem auto;
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
 @media screen and (max-width: 1200px) {
     .container{
         width: 95%;
@@ -572,18 +592,6 @@ main .recent-orders a{
 
     main .new-users .user-list .user{
         flex-basis: 40%;
-    }
-
-    main .recent-orders {
-        width: 94%;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        margin: 2rem 0 0 0.8rem;
-    }
-
-    main .recent-orders table{
-        width: 83vw;
     }
 
     main table thead tr th:last-child,
@@ -657,17 +665,6 @@ main .recent-orders a{
 
     main .new-users .user-list .user{
         flex-basis: 35%;
-    }
-
-    main .recent-orders{
-        position: relative;
-        margin: 3rem 0 0 0;
-        width: 100%;
-    }
-
-    main .recent-orders table{
-        width: 100%;
-        margin: 0;
     }
 
     .right-section{

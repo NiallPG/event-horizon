@@ -197,26 +197,28 @@
 
 
 
-            <!-- Orders Section -->
+            <!-- Asteroid Section -->
 
-            <div class="recent-orders">
-                <h2>Recent Orders</h2>
+            <div class="asteroid-tracker">
+                <h2>Near-Earth Asteroids Today</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>Event Name</th>
-                            <th>Event Class</th>
-                            <th>Region</th>
-                            <th>Status</th>
-                            <th></th>
+                            <th>NEO Name</th>
+                            <th>Max Diameter (km)</th>
+                            <th>Lunar Distance</th>
+                            <th>Hazard Status</th>
+                            <th>Velocity (km/h)</th>
+                            <th>Approach Time (Local)</th>
+                            <th>Risk Score</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
-                <a href="#">Show All</a>
+                <a href="#" id="refresh-asteroids">Refresh Data</a>
             </div>
 
-            <!-- End of Orders Section -->
+            <!-- End of Asteroid Section -->
 
         </main>
 
@@ -330,7 +332,6 @@
 
     </div>
     
-    <script src="./js/orders.js"></script>
     <script src="./js/index.js"></script>
 </body>
 </html>
