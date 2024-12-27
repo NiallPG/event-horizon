@@ -72,7 +72,7 @@ async function fetchAsteroidData() {
         const data = await response.json();
         const asteroids = data.near_earth_objects[todayFormatted];
 
-        // relevance score is calculated for each asteroid
+        // relevance score calculation for each asteroid
         const scoredAsteroids = asteroids.map(asteroid => {
             const closeApproach = asteroid.close_approach_data[0];
             const approachTime = new Date(closeApproach.close_approach_date_full).getTime();
@@ -81,23 +81,22 @@ async function fetchAsteroidData() {
             const diameter = asteroid.estimated_diameter.kilometers.estimated_diameter_max;
             
             // individual scores
-            const timeScore = 1 - ((approachTime - today.getTime()) / (24 * 60 * 60 * 1000)); // higher score for closer times
-            const proximityScore = 1 - (missDistanceLunar / 100); // higher score for closer approaches
-            const sizeScore = Math.min(diameter / 1, 1); // higher score for larger objects
-            const velocityScore = Math.min(velocity / 50000, 1); // higher score for faster objects
+            const timeScore = 1 - ((approachTime - today.getTime()) / (24 * 60 * 60 * 1000));
+            const proximityScore = 1 - (missDistanceLunar / 100);
+            const sizeScore = Math.min(diameter / 1, 1);
+            const velocityScore = Math.min(velocity / 50000, 1);
             
             // weighted relevance score
             const relevanceScore = (
-                (timeScore * 0.3) + // time weight: 30%
-                (proximityScore * 0.3) + // proximity weight: 30%
-                (sizeScore * 0.2) + // size weight: 20%
-                (velocityScore * 0.1) + // velocity weight: 10%
-                (asteroid.is_potentially_hazardous_asteroid ? 0.1 : 0) // hazard bonus: 10%
+                (timeScore * 0.3) +
+                (proximityScore * 0.3) +
+                (sizeScore * 0.2) +
+                (velocityScore * 0.1) +
+                (asteroid.is_potentially_hazardous_asteroid ? 0.1 : 0)
             );
 
-            return {...asteroid,relevanceScore};
+            return {...asteroid, relevanceScore};
         });
-
 
         return scoredAsteroids.sort((a, b) => b.relevanceScore - a.relevanceScore);
     } catch (error) {
@@ -107,11 +106,16 @@ async function fetchAsteroidData() {
 }
 
 async function updateAsteroidTable() {
-    const asteroids = await fetchAsteroidData();
+    const refreshBtn = document.getElementById('refresh-asteroids');
     const tbody = document.querySelector('.asteroid-tracker tbody');
+    
+    // show loading state
+    refreshBtn.textContent = 'Refreshing...';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Loading new data...</td></tr>';
+    
+    const asteroids = await fetchAsteroidData();
+    
     tbody.innerHTML = '';
-
-
     if (asteroids.length > 0) {
         asteroids.slice(0, 4).forEach(asteroid => {
             const tr = document.createElement('tr');
@@ -136,10 +140,17 @@ async function updateAsteroidTable() {
             tbody.appendChild(tr);
         });
     } else {
-        const tr = document.createElement('tr');
-        tr.innerHTML = '<td colspan="7">No asteroid data available</td>';
-        tbody.appendChild(tr);
+        tbody.innerHTML = '<tr><td colspan="7">No asteroid data available</td></tr>';
     }
+    
+    // update refresh button with full timestamp
+    const now = new Date().toLocaleTimeString();
+    refreshBtn.textContent = `Last Updated: ${now}`;
+    
+    // reset button text after 3 seconds
+    setTimeout(() => {
+        refreshBtn.textContent = 'Refresh Data';
+    }, 3000);
 }
 
 document.getElementById('refresh-asteroids')?.addEventListener('click', (e) => {
