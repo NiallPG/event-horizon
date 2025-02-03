@@ -63,12 +63,62 @@ function updateMoonPhase() {
 }
 
 
+async function fetchAPODImages() {
+    const apiKey = 'YOURAPI'; // Replace with your NASA API key
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setDate(endDate.getDate() - 5);
+
+    try {
+        const response = await fetch(
+            `https://api.nasa.gov/planetary/apod?` +
+            `start_date=${formatDate(startDate)}&` +
+            `end_date=${formatDate(endDate)}&` +
+            `api_key=${apiKey}`
+        );
+        
+        const data = await response.json();
+        return data
+            .filter(apod => apod.media_type === 'image')
+            .reverse() // show newest first
+            .slice(0, 5); // get recent 5 images (do we want more)
+            
+    } catch (error) {
+        console.error('Error fetching APOD images:', error);
+        return [];
+    }
+}
+
+function formatDate(date) {
+    return date.toISOString().split('T')[0];
+}
+
+async function updateAPODImages() {
+    const apodData = await fetchAPODImages();
+    const imageList = document.querySelector('.image-list');
+    
+    if (!imageList) return;
+
+    imageList.innerHTML = apodData.map(apod => `
+        <div class="image-item">
+            <img src="${apod.url}" alt="${apod.title}">
+            <h3>${apod.title}</h3>
+            <p>${apod.date}</p>
+        </div>
+    `).join('');
+
+    if (apodData.length === 0) {
+        imageList.innerHTML = `<div class="no-images">No astronomy images available</div>`;
+    }
+}
+
+
 async function fetchAsteroidData() {
     const today = new Date();
     const todayFormatted = today.toISOString().split('T')[0];
     
     try {
-        const response = await fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${todayFormatted}&end_date=${todayFormatted}&api_key=YOUR+API`);
+        const response = await fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${todayFormatted}&end_date=${todayFormatted}&api_key=YOURAPI`);
         const data = await response.json();
         const asteroids = data.near_earth_objects[todayFormatted];
 
@@ -117,7 +167,7 @@ async function updateAsteroidTable() {
     
     tbody.innerHTML = '';
     if (asteroids.length > 0) {
-        asteroids.slice(0, 4).forEach(asteroid => {
+        asteroids.slice(0, 3).forEach(asteroid => {
             const tr = document.createElement('tr');
             const closeApproach = asteroid.close_approach_data[0];
             const velocity = parseInt(closeApproach.relative_velocity.kilometers_per_hour);
@@ -237,11 +287,13 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMoonPhase();
     updateAsteroidTable();
     updatePlanetVisibility();
+    updateAPODImages();
     
     setInterval(() => {
         updateSpaceWeather();
         updateMoonPhase();
         updateAsteroidTable();
         updatePlanetVisibility();
+        updateAPODImages();
     }, 1800000);
 });
